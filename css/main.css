@@ -1,0 +1,88 @@
+
+@font-face {
+    font-family: myFirstFont;
+    src: url('./fonts/CANDARA.TTF') format('truetype');
+}
+
+body{
+    font-family: myFirstFont;
+    margin: 0px;
+    /*background-color:#272727;*/
+   /* background-color: transparent;*/
+    /*background-color: #1E1F26;*/
+     background-color: #383a3f;
+    /*background-color: #2c303b;*/
+
+}
+
+#mainBody{
+    height: auto;
+    width: 95vw;
+    display: block;
+    position: absolute;
+    
+}
+
+
+div.filaBody{
+    display: grid;
+    grid-template-columns: 1fr 1fr ;
+    grid-column-gap: 1px;
+    grid-row-gap: 1px;
+    position: relative;
+    
+}
+
+@media screen and (min-width: 500px) {
+    div.filabody {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  
+  @media screen and (max-width: 800px) {
+    div.filaBody {
+      grid-template-columns: 1fr 1fr ;
+    }
+  }
+
+
+div.bodyElement{
+    height: auto;
+    width: 260px;
+    display: inline-block;
+    position: relative;
+    padding: 10px 25px 10px 25px;
+    align-content: center;
+    
+}
+
+div.bodyElement img{
+    height: auto;
+    width: 260px;
+    display: block;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+}
+
+h2{
+    display: block;
+    position: relative;
+    top: 60px;
+    left: 40px;
+    color: #D0E1F9;
+    margin-bottom: 60px;
+}
+
+
+p{
+    display: block;
+    position: relative;
+    top: -108px;
+    left: 300px;
+    color: #D0E1F9;
+    margin-bottom: 60px;
+    font-size: 2em;
+}

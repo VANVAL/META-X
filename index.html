@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+    <link rel="stylesheet" href="css/index.css">
+   
+
+    <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase.js"></script>
+    
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDiUZ4MFl-uJFsJJzgDvbK4PcCtB62WN80",
+            authDomain: "metax-17fa7.firebaseapp.com",
+            databaseURL: "https://metax-17fa7.firebaseio.com",
+            projectId: "metax-17fa7",
+            storageBucket: "metax-17fa7.appspot.com",
+            messagingSenderId: "469184894981"
+        };
+        firebase.initializeApp(config);
+    </script>
+    <!------ Include the above in your HEAD tag ---------->
+
+
+</head>
+
+<body>
+
+    <div id="sign">
+        <h3>Sign up</h3>
+        <input id="signUser" type="text" class="textoS">
+        <input id="signPass" type="password" class="textoS">
+        <button id="btn1">:V</button>
+    </div>
+    <div id="login">
+        <h3>Login</h3>
+        <input id="logName" type="text" class="textoL">
+        <input id="logPass" type="password" class="textoL">
+        <button id="btn2"> >:V </button>
+    </div>
+    <script src="js/index.js"> </script>
+</body>
+
+</html>

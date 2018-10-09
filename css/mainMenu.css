@@ -1,0 +1,77 @@
+body{
+    position: absolute;
+    display: block;
+    top: 0px;
+    left: 0px;
+    margin: 0px;
+    overflow-y: hidden;
+    background-image: url("../img/space.jpg");
+}
+
+ul{
+    list-style-type: none;
+}
+
+#leftContainer{
+    position: relative;
+    display: inline-block;
+    float: left;
+    height: 100vh;
+    width: 85%;
+}
+
+#leftContainer #logo{
+    position: relative;
+    display: block;
+    height: 100%;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#rightContainer{
+    position: relative;
+    display: inline-block;
+    float: right;
+    height: 100vh;
+    width: 15%;
+}
+
+#menuContainer{
+    position: relative;
+    display: block;
+    height: auto;
+    width: 100%;
+    bottom: -440px;
+    right: 15px;
+}
+
+.button{
+    background-color: rgb(103, 112, 133);
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    transition-duration: 0.4s;
+    display: block;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 130px;
+}
+
+
+.button:hover{
+    background-color: rgb(25, 185, 177);
+    cursor: copy;
+    color: white;
+}
+
+
+li{
+    margin-bottom: 20px;
+}
