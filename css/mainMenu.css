@@ -67,7 +67,7 @@ ul{
 
 .button:hover{
     background-color: rgb(25, 185, 177);
-    cursor: copy;
+    cursor: pointer;
     color: white;
 }
 
@@ -75,3 +75,4 @@ ul{
 li{
     margin-bottom: 20px;
 }
+ 
