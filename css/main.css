@@ -9,7 +9,7 @@ body{
     margin: 0px;
     background-image: url("../img/space.jpg");
     
-
+    overflow-x: hidden ; 
 }
 
 #title{
@@ -28,14 +28,24 @@ body{
     
 }
 
+#extendedElements{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    position: relative;
+    display: block;
+    top: 0px;
+    left: 0px;
+    height: 84vh;
+    width: 90%;
+    margin: 0px;
+}
 
 .filaBody{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-column-gap: 1px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap: 73px;
     grid-row-gap: 1px;
     position: relative;
-    
 }
 
 @media screen and (min-width: 500px) {
@@ -53,23 +63,21 @@ body{
 
 .bodyElement{
     height: auto;
-    width: 260px;
+    width: auto;
     display: inline-block;
     position: relative;
-    padding: 10px 25px 10px 25px;
+    padding: 10px 10px 10px 10px;
     align-content: center;
-    
 }
 
 .bodyElement img{
     height: auto;
-    width: 260px;
+    width: 80px;
     display: block;
     position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 10px;
+    top: 0px;
+    left: 10px;
+    border-radius: 100px;
 }
 
 h1{
@@ -100,25 +108,27 @@ p{
 
 #highestScore .puntajeTxt{
     position: relative;
-    display: inline-block;
+    display: block;
+    text-align: center;
     height: auto;
     width: auto;
     font-size: 4em;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%,-185px);
     margin: 0px;
 }
 
 #highestScore #playerTxt{
     position: relative;
-    display: inline-block;
+    display: block;
     height: auto;
     width: auto;
+    text-align: center;
     font-size: 3em;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,50%);
+    transform: translate(-50%,100px);
     margin: 0px;
 }
 
@@ -130,27 +140,27 @@ p{
     left: 50%;
     top: 50%;
     transform: translate(-50%,-50%);
+    border-radius: 130px;
 }
 
 #triangle-down {
     width: 0;
     height: 0;
-    border-left: 50px solid transparent;
-    border-right: 50px solid transparent;
-    border-top: 100px solid rgb(0, 140, 255);
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 15px solid rgb(0, 140, 255);
     transition-duration: 0.4s;
+    display: inline-block;
     
 }
 
 #triangle-down:hover {
 
-    border-top: 100px solid rgb(113, 195, 233) ;
+    border-top: 15px solid rgb(113, 195, 233) ;
     cursor: pointer;
 }
 
-#extendedElements{
-    overflow-y: scroll ;  
-}
+
 
 #rightContainer{
     position: relative;
@@ -197,5 +207,45 @@ p{
     display: inline-block;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,100%);
+    height: 50px;
+    transform: translate(-50%,245px);
+}
+
+.button2{
+    display: inline-block;
+    background-color: rgb(103, 112, 133);
+    color: white;
+    border-radius: 20px;
+    height: 30px;
+    width: 100px;
+    border: none;
+    top: -6px;
+    position: relative;
+}
+
+div .button2:hover{
+    display: inline-block;
+    background-color:  rgb(25, 185, 177);
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.otherP, .otherN{
+    display: block;
+    position: relative;
+    margin: 0px;
+    font-size: 1.3em;
+
+}
+
+.otherP{
+    top: -60px;
+    right: -105px;
+    
+}
+
+.otherN{
+    top: -40px;
+    right: -105px;
 }
