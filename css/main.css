@@ -164,7 +164,7 @@ p{
 
 #rightContainer{
     position: relative;
-    display: inline-block;
+    display: block;
     float: right;
     height: 100vh;
     width: 15%;
