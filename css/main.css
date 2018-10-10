@@ -8,8 +8,8 @@ body{
     font-family: myFirstFont;
     margin: 0px;
     background-image: url("../img/space.jpg");
-    
     overflow-x: hidden ; 
+    overflow-y: hidden;
 }
 
 #title{
@@ -17,7 +17,7 @@ body{
     display: block;
     height: auto;
     width: 100%;
-    margin: 40px 0px 0px 0px;   
+    margin: 40px 0px 30px 0px;   
 }
 
 #mainBody{
@@ -91,6 +91,11 @@ h1{
     margin: 0px;
 }
 
+li{
+    margin-bottom: 10px;
+}
+
+a{text-decoration: none;}
 
 p{
 
@@ -192,7 +197,7 @@ p{
     position: relative;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-60%,-50%);
     width: 200px;
 }
 
@@ -213,7 +218,7 @@ p{
 
 .button2{
     display: inline-block;
-    background-color: rgb(103, 112, 133);
+    background-color: transparent;
     color: white;
     border-radius: 20px;
     height: 30px;
@@ -225,7 +230,7 @@ p{
 
 div .button2:hover{
     display: inline-block;
-    background-color:  rgb(25, 185, 177);
+    background-color:  transparent;
     color: white;
     border-radius: 20px;
     cursor: pointer;
@@ -237,6 +242,10 @@ div .button2:hover{
     margin: 0px;
     font-size: 1.3em;
 
+}
+
+ul{
+    list-style-type: none;
 }
 
 .otherP{

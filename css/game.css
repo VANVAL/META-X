@@ -1,0 +1,49 @@
+#canvasP1 {
+    width: 100%;
+    height: 50%;
+}
+
+#leftContainerG {
+    position: relative;
+    display: block;
+    float: left;
+    height: 100vh;
+    width: 85%;
+}
+
+#rightContainerG {
+    position: relative;
+    display: block;
+    float: right;
+    height: auto;
+    width: 15%;
+}
+
+#template {
+    width: 100%;
+    height: 100%;
+}
+
+#template img {
+    width: 100%;
+    height: 100%;
+}
+
+#canvasP2 {}
+
+.playerControls {
+    text-align: center;
+    margin-bottom: 60px;
+    position: relative;
+    display: block;
+}
+
+.playerControls img {
+    height: 100px;
+    position: relative;
+}
+
+.playerControls p {
+    color: white;
+    font-size: 2em;
+}

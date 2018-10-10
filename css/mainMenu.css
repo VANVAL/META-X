@@ -8,6 +8,10 @@ body{
     background-image: url("../img/space.jpg");
 }
 
+a{
+    text-decoration: none;
+}
+
 ul{
     list-style-type: none;
 }
