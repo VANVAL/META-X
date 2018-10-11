@@ -11,10 +11,12 @@
 
 
     <link rel="stylesheet" href="css/index.css">
-   
+    <link rel="stylesheet" href="css/mainMenu.css">
+    <link rel="stylesheet" href="css/main.css">
+
 
     <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase.js"></script>
-    
+
     <script>
         // Initialize Firebase
         var config = {
@@ -33,19 +35,31 @@
 </head>
 
 <body>
+    <div id="formUser">
+            <h3>WELCOME</h3>
+        <div id="sign">
+            <a href=""><p>Sign up</p></a>
+            <p>or</p>
+            <a href=""><p>Sign in</p></a>
+            
+            <input id="signUser" type="text" class="textoS" placeholder="email">
+            <input id="signPass" type="password" class="textoS" placeholder="password">
+            <a href="mainMenu.html">
+                <button id="btn1">Sign up</button>
+            </a>
+          
+        </div>
+        <p>*Login & Sign up functionality pending, press button to go to main menu</p>
+        <!--<div id="login">
+            <h3>Login</h3>
+            <input id="logName" type="text" class="textoL" placeholder="email">
+            <input id="logPass" type="password" class="textoL" placeholder="password">
+            <a href="mainMenu.html">
+                <button id="btn2"> Log in </button>
+            </a>
+        </div>-->
+    </div>
 
-    <div id="sign">
-        <h3>Sign up</h3>
-        <input id="signUser" type="text" class="textoS">
-        <input id="signPass" type="password" class="textoS">
-        <button id="btn1">:V</button>
-    </div>
-    <div id="login">
-        <h3>Login</h3>
-        <input id="logName" type="text" class="textoL">
-        <input id="logPass" type="password" class="textoL">
-        <button id="btn2"> >:V </button>
-    </div>
     <script src="js/index.js"> </script>
 </body>
 

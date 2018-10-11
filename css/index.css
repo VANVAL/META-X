@@ -1,17 +1,105 @@
-#sign{
-    position: absolute;
-    display: inline-block;
-    top: 0px;
-    left: 0px;
+body {
     height: 100vh;
-    width: 50vw;
+    width: 100vw;
 }
 
-#login{
+#formUser #sign {
+    position: absolute;
+    display: block;
+    top: 50%;
+    left: 50%;
+    height: auto;
+    width: auto;
+    transform: translate(-50%, -50%);
+    align-content: center;
+}
+
+#sign>a>p, #formUser>#sign>p{
+    margin: 2px 0px 0px 0px;
+    position: relative; 
+    display: inline-block; 
+    text-align: center;
+    font-size: 1.5em; 
+    left: 20px;
+}
+
+#login {
     position: relative;
     display: inline-block;
     top: 0px;
     float: right;
     height: 50vh;
     width: 50vw;
+}
+
+#btn1,
+#btn2 {
+    background-color: rgb(103, 112, 133);
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    transition-duration: 0.4s;
+    display: block;
+    position: relative;
+    width: 130px;
+    left: 50%;
+    transform: translate(-50%);
+    margin-top: 30px;
+    border-radius: 10px;
+}
+
+#btn1:hover,
+#btn2:hover {
+    background-color: rgb(25, 185, 177);
+    cursor: pointer;
+    color: white;
+}
+
+h3 {
+    top: 60px;
+    left: 40px;
+    color: black;
+    text-align: center;
+    -webkit-text-stroke: 1px rgb(113, 195, 233);
+    font-size: 3em;
+    margin: 30px 0px 0px 0px;
+}
+
+a {
+    text-decoration: none;
+}
+
+#formUser {
+    position: relative;
+    display: block;
+    height: 400px;
+    width: 400px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(25, 185, 177);
+    border-radius: 40px;
+}
+
+#formUser p {
+    position: absolute;
+    display: block;
+    padding: 0px;
+    vertical-align: text-bottom;
+    bottom: 0px;
+    left: 40px;
+}
+
+#formUser input {
+    position: relative;
+    display: block;  
+    border-radius: 10px;  
+    height: 30px; 
+    width: 250px; 
+    margin-top: 30px;
 }

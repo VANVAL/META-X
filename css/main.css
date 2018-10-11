@@ -9,7 +9,7 @@ body{
     margin: 0px;
     background-image: url("../img/space.jpg");
     overflow-x: hidden ; 
-    overflow-y: hidden;
+    overflow-y: scroll;
 }
 
 #title{
