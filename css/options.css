@@ -93,6 +93,7 @@ margin: 0px 50px 0px 50px;
     position: relative;  
     top: 50%;   
     left: 20px;
+    margin: 0px;
 }
 
 .arrowRight {
@@ -103,9 +104,8 @@ margin: 0px 50px 0px 50px;
     border-left: 20px solid rgb(0, 140, 255);
     display: block;
     position: relative;
-    float: right;
-    top: -46%;  
-    right: 20px;
+    top: -46%;
+    right: -265px;
 }
 
 .arrowLeft:hover {

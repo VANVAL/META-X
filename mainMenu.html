@@ -1,17 +1,38 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+    
+    <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>META-X</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="css/mainMenu.css" />
-    <script src="main.js"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.7/firebase.js"></script>
+    <!-- Firebase App is always required and must be first -->
+    <script src="https://www.gstatic.com/firebasejs/5.5.7/firebase-app.js"></script>
+
+    <!-- Add additional services that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/5.5.7/firebase-auth.js"></script>
+
+    <script>
+        // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyDiUZ4MFl-uJFsJJzgDvbK4PcCtB62WN80",
+        authDomain: "metax-17fa7.firebaseapp.com",
+        databaseURL: "https://metax-17fa7.firebaseio.com",
+        projectId: "metax-17fa7",
+        storageBucket: "metax-17fa7.appspot.com",
+        messagingSenderId: "469184894981"
+    };
+    firebase.initializeApp(config);
+    </script>
+    
 </head>
 
 <body>
-        <audio src="audio/Intro.mp3" loop autoplay></audio>
+    <!--<audio src="audio/Intro.mp3" loop autoplay></audio>-->
     <div id="leftContainer">
         <img id="logo" src="img/MetaXLogo.png" alt="Logo">
     </div>
@@ -20,20 +41,22 @@
         <div id="menuContainer">
             <ul id="buttonsList">
                 <li>
-                    <a href="game.html"><input class="button" type="button" value="START"></a>
-                  
-                   
+                    <button id="btn_start" class="button" type="button" >START</button>
                 </li>
                 <li>
-                   <a href="options.html"><input  class="button" type="button" value="OPTIONS"> </a> 
+                    <button id="btn_options" class="button" type="button" >OPTIONS</button>
                 </li>
                 <li>
-                   <a href="score.html"><input  class="button"type="button" value="SCORES"></a> 
+                    <button id="btn_scores" class="button" type="button" >SCORES</button>
+                </li>
+                <li>
+                    <button id="btn_logout" class="button" type="button" >LOG OUT</button>
                 </li>
             </ul>
         </div>
     </div>
-
+    <script src="js/mainMenu.js"></script>
+    
 </body>
 
 </html>

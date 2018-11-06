@@ -5,49 +5,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+    <title>META-X</title>
 
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/mainMenu.css">
     <link rel="stylesheet" href="css/main.css">
 
+    <script src="https://www.gstatic.com/firebasejs/5.5.7/firebase.js"></script>
+    <!-- Firebase App is always required and must be first -->
+    <script src="https://www.gstatic.com/firebasejs/5.5.7/firebase-app.js"></script>
 
-    <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase.js"></script>
+    <!-- Add additional services that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/5.5.7/firebase-auth.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/5.5.7/firebase-database.js"></script>
 
     <script>
         // Initialize Firebase
-        var config = {
-            apiKey: "AIzaSyDiUZ4MFl-uJFsJJzgDvbK4PcCtB62WN80",
-            authDomain: "metax-17fa7.firebaseapp.com",
-            databaseURL: "https://metax-17fa7.firebaseio.com",
-            projectId: "metax-17fa7",
-            storageBucket: "metax-17fa7.appspot.com",
-            messagingSenderId: "469184894981"
-        };
-        firebase.initializeApp(config);
+    var config = {
+        apiKey: "AIzaSyDiUZ4MFl-uJFsJJzgDvbK4PcCtB62WN80",
+        authDomain: "metax-17fa7.firebaseapp.com",
+        databaseURL: "https://metax-17fa7.firebaseio.com",
+        projectId: "metax-17fa7",
+        storageBucket: "metax-17fa7.appspot.com",
+        messagingSenderId: "469184894981"
+    };
+    firebase.initializeApp(config);
     </script>
     <!------ Include the above in your HEAD tag ---------->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 
 
 </head>
 
 <body>
     <div id="formUser">
-            <h3>WELCOME</h3>
+        <h3>WELCOME</h3>
         <div id="sign">
-            <a href=""><p>Sign up</p></a>
-            <p>or</p>
-            <a href=""><p>Sign in</p></a>
-            
-            <input id="signUser" type="text" class="textoS" placeholder="email">
-            <input id="signPass" type="password" class="textoS" placeholder="password">
-            <a href="mainMenu.html">
-                <button id="btn1">Sign up</button>
+            <a href="">
+                <p>Sign up</p>
             </a>
-          
+            <p>or</p>
+            <a href="">
+                <p>Sign in</p>
+            </a>
+
+            <input id="signUser" type="email" class="textoS" placeholder="email">
+            <input id="signPass" type="password" class="textoS" placeholder="password">
+  
+            <button id="btn1">Sign up</button>
+            <button id="btn2">Log in</button>
+            
         </div>
         <p>*Login & Sign up functionality pending, press button to go to main menu</p>
         <!--<div id="login">
