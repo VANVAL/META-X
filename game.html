@@ -1,408 +1,450 @@
 <html>
+
 <head>
-	
-	<title>2.3 Colisiones</title>
+	<title>META-X</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script type="text/javascript" src="js/three/three.js"></script>
 	<script type="text/javascript" src="js/three/MTLLoader.js"></script>
 	<script type="text/javascript" src="js/three/OBJLoader.js"></script>
+	<link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="css/game.css" />
 	<script type="text/javascript">
+		var scene;
+		var scene2;
+		var camera;
+		var camera2;
+		var renderer;
+		var renderer2;
+		var controls;
+		var objects = [];
+		var clock;
+		var clock2;
+		var deltaTime;
+		var keys = {};
 
-	var scene;
-	var scene2;
-	var camera;
-	var camera2;
-	var renderer;
-	var renderer2;
-	var controls;
-	var objects = [];
-	var clock;	
-	var clock2;
-	var deltaTime;	
-	var keys = {};
+		//objeto para la colision
+		var raycaster;
+		var objetosConColision = []; //los objetos que si tenga colision  los agregamos a este arreglo
+		//UNA VEZ QUE QUITES EL OBJETO DE LA ESCENA QUITALO DEL ARREGLO TAMBIEN
 
-	//objeto para la colision
-	var raycaster; 
-	var objetosConColision =[]; //los objetos que si tenga colision  los agregamos a este arreglo
-	//UNA VEZ QUE QUITES EL OBJETO DE LA ESCENA QUITALO DEL ARREGLO TAMBIEN
-
-	var raycaster2;
-	var objetosConColision2 = [];
-
-
-	var isWorldReady = [ false, false ];
-	$(document).ready(function() {
-
-		//inicializando el raycaster
-		raycaster =new THREE.Raycaster(); 
-		raycaster2 =new THREE.Raycaster(); 
-
-		setupScene();
-		setupScene2();
+		var raycaster2;
+		var objetosConColision2 = [];
 
 
-		//creando los rayos a disparar para la colision
-		camera.rayos =[
-		new THREE.Vector3(1,0,0),
-		new THREE.Vector3(-1,0,0),
-		new THREE.Vector3(0,0,1),
-		new THREE.Vector3(0,0,-1),
-		]; //esta disparando en sus 4 puntos cardinales
+		var isWorldReady = [false, false];
+		$(document).ready(function () {
 
-		camera2.rayos =[
-		new THREE.Vector3(1,0,0),
-		new THREE.Vector3(-1,0,0),
-		new THREE.Vector3(0,0,1),
-		new THREE.Vector3(0,0,-1),
-		]; 
+			//inicializando el raycaster
+			raycaster = new THREE.Raycaster();
+			//raycaster2 = new THREE.Raycaster();
 
-		loadOBJWithMTL("assets/", "box.obj", "box.mtl", (object) => {
-			object.position.z = -30;
-
-			var objectcopy = object.clone();
-			objectcopy.position.z = -30;			
-
-			var box2 = object.clone();
-			box2.position.x = 30;
-			var box2copy = object.clone();
-			box2copy.position.x = 30;
-
-			var box3 = object.clone();
-			box3.position.x = - 30;
-			var box3copy = object.clone();
-			box3copy.position.x = - 30;
-
-			var box4 = object.clone();
-			box4.position.x = 30;
-			box4.position.z = 30;
-			var box4copy = object.clone();
-			box4copy.position.x = 30;
-			box4copy.position.z = 30;
-
-			var box5 = object.clone();
-			box5.position.x = -30;
-			box5.position.z = 30;
-			var box5copy = object.clone();
-			box5copy.position.x = -30;
-			box5copy.position.z = 30;
-
-			var box6 = object.clone();
-			box6.position.x = 0;
-			box6.position.z = 30;
-			var box6copy = object.clone();
-			box6copy.position.x = 0;
-			box6copy.position.z = 30;
-			
-
-			var box7 = object.clone();
-			box7.rotation.y = THREE.Math.degToRad(90);
-			box7.position.x = 40
-			box7.position.z = 3;
-			var box7copy = object.clone();
-			box7copy.rotation.y = THREE.Math.degToRad(90);
-			box7copy.position.x = 40
-			box7copy.position.z = 3;
-			
-
-			var box8 = object.clone();
-			box8.rotation.y = THREE.Math.degToRad(90);
-			box8.position.x = -40
-			box8.position.z = 3;
-			var box8copy = object.clone();
-			box8copy.rotation.y = THREE.Math.degToRad(90);
-			box8copy.position.x = -40
-			box8copy.position.z = 3;
+			setupScene();
+			//setupScene2();
 
 
-			scene.add(object);
-			scene.add(box2);
-			scene.add(box3);
-			scene.add(box4);
-			scene.add(box5);
-			scene.add(box6);
-			scene.add(box7);
-			scene.add(box8);
+			//creando los rayos a disparar para la colision
+			camera.rayos = [
+				new THREE.Vector3(1, 0, 0),
+				new THREE.Vector3(-1, 0, 0),
+				new THREE.Vector3(0, 0, 1),
+				new THREE.Vector3(0, 0, -1),
+			]; //esta disparando en sus 4 puntos cardinales
 
-			scene2.add(objectcopy);
-			scene2.add(box2copy);
-			scene2.add(box3copy);
-			scene2.add(box4copy);
-			scene2.add(box5copy);
-			scene2.add(box6copy);
-			scene2.add(box7copy);
-			scene2.add(box8copy);
+			/* camera2.rayos =[
+			new THREE.Vector3(1,0,0),
+			new THREE.Vector3(-1,0,0),
+			new THREE.Vector3(0,0,1),
+			new THREE.Vector3(0,0,-1),
+			]; */
 
-			//metiendo nuestro objetos que colisionan al arreglo
-			objetosConColision.push(object);
-			objetosConColision.push(box2);
-			objetosConColision.push(box3);
-			objetosConColision.push(box4);
-			objetosConColision.push(box5);
-			objetosConColision.push(box6);
-			objetosConColision.push(box7);
-			objetosConColision.push(box8);
+			loadOBJWithMTL("assets/", "box.obj", "box.mtl", (object) => {
+				object.position.z = -30;
+
+				var objectcopy = object.clone();
+				objectcopy.position.z = -30;
+
+				var box2 = object.clone();
+				box2.position.x = 30;
+				var box2copy = object.clone();
+				box2copy.position.x = 30;
+
+				var box3 = object.clone();
+				box3.position.x = -30;
+				var box3copy = object.clone();
+				box3copy.position.x = -30;
+
+				var box4 = object.clone();
+				box4.position.x = 30;
+				box4.position.z = 30;
+				var box4copy = object.clone();
+				box4copy.position.x = 30;
+				box4copy.position.z = 30;
+
+				var box5 = object.clone();
+				box5.position.x = -30;
+				box5.position.z = 30;
+				var box5copy = object.clone();
+				box5copy.position.x = -30;
+				box5copy.position.z = 30;
+
+				var box6 = object.clone();
+				box6.position.x = 0;
+				box6.position.z = 30;
+				var box6copy = object.clone();
+				box6copy.position.x = 0;
+				box6copy.position.z = 30;
 
 
-			objetosConColision2.push(objectcopy);
-			objetosConColision2.push(box2copy);
-			objetosConColision2.push(box3copy);
-			objetosConColision2.push(box4copy);
-			objetosConColision2.push(box5copy);
-			objetosConColision2.push(box6copy);
-			objetosConColision2.push(box7copy);
-			objetosConColision2.push(box8copy);
-			
+				var box7 = object.clone();
+				box7.rotation.y = THREE.Math.degToRad(90);
+				box7.position.x = 40
+				box7.position.z = 3;
+				var box7copy = object.clone();
+				box7copy.rotation.y = THREE.Math.degToRad(90);
+				box7copy.position.x = 40
+				box7copy.position.z = 3;
 
-			isWorldReady[0] = true;
-		});
 
-		loadOBJWithMTL("assets/", "jetski.obj", "jetski.mtl", (object) => {
-			object.position.z = -10;
-			object.rotation.x = THREE.Math.degToRad(-90);
-			
-			var jetski = object.clone();
-			jetski.position.z = -10;
-			jetski.rotation.x = THREE.Math.degToRad(-90);
+				var box8 = object.clone();
+				box8.rotation.y = THREE.Math.degToRad(90);
+				box8.position.x = -40
+				box8.position.z = 3;
+				var box8copy = object.clone();
+				box8copy.rotation.y = THREE.Math.degToRad(90);
+				box8copy.position.x = -40
+				box8copy.position.z = 3;
 
-			scene.add(object);
-			scene2.add(jetski);
-			isWorldReady[1] = true;
-		});
 
-		render();
-		render2();
+				scene.add(object);
+				scene.add(box2);
+				scene.add(box3);
+				scene.add(box4);
+				scene.add(box5);
+				scene.add(box6);
+				scene.add(box7);
+				scene.add(box8);
 
-		document.addEventListener('keydown', onKeyDown);
-		document.addEventListener('keyup', onKeyUp);		
-	});
+				/* scene2.add(objectcopy);
+				scene2.add(box2copy);
+				scene2.add(box3copy);
+				scene2.add(box4copy);
+				scene2.add(box5copy);
+				scene2.add(box6copy);
+				scene2.add(box7copy);
+				scene2.add(box8copy); */
 
-	function loadOBJWithMTL(path, objFile, mtlFile, onLoadCallback) {
-		var mtlLoader = new THREE.MTLLoader();
-		mtlLoader.setPath(path);
-		mtlLoader.load(mtlFile, (materials) => {
-			
-			var objLoader = new THREE.OBJLoader();
-			objLoader.setMaterials(materials);
-			objLoader.setPath(path);
-			objLoader.load(objFile, (object) => {
-				onLoadCallback(object);
+				//metiendo nuestro objetos que colisionan al arreglo
+				objetosConColision.push(object);
+				objetosConColision.push(box2);
+				objetosConColision.push(box3);
+				objetosConColision.push(box4);
+				objetosConColision.push(box5);
+				objetosConColision.push(box6);
+				objetosConColision.push(box7);
+				objetosConColision.push(box8);
+
+
+				/* objetosConColision2.push(objectcopy);
+				objetosConColision2.push(box2copy);
+				objetosConColision2.push(box3copy);
+				objetosConColision2.push(box4copy);
+				objetosConColision2.push(box5copy);
+				objetosConColision2.push(box6copy);
+				objetosConColision2.push(box7copy);
+				objetosConColision2.push(box8copy); */
+
+
+				isWorldReady[0] = true;
 			});
+
+			loadOBJWithMTL("assets/", "jetski.obj", "jetski.mtl", (object) => {
+				object.position.z = -10;
+				object.rotation.x = THREE.Math.degToRad(-90);
+
+				var jetski = object.clone();
+				jetski.position.z = -10;
+				jetski.rotation.x = THREE.Math.degToRad(-90);
+
+				scene.add(object);
+				//scene2.add(jetski);
+				isWorldReady[1] = true;
+			});
+
+			render();
+			//render2();
+
+			document.addEventListener('keydown', onKeyDown);
+			document.addEventListener('keyup', onKeyUp);
+
+			// TODO: BOTON SALIR 
+			$("body").on('click', '#btnExit', function () {
+				$(location).attr('href', 'mainMenu.html');
+			});
+			//TODO: TERMINA BOTON SALIR
+
+			
+			
 		});
-	}
 
-	function onKeyDown(event) {
-		keys[String.fromCharCode(event.keyCode)] = true;
-	}
-	function onKeyUp(event) {
-		keys[String.fromCharCode(event.keyCode)] = false;
-	}
+		function loadOBJWithMTL(path, objFile, mtlFile, onLoadCallback) {
+			var mtlLoader = new THREE.MTLLoader();
+			mtlLoader.setPath(path);
+			mtlLoader.load(mtlFile, (materials) => {
 
-	
-	function render() {
-		requestAnimationFrame(render);
-		deltaTime = clock.getDelta();	
-
-		var yaw = 0;
-		var forward = 0;
-		if (keys["A"]) {
-			yaw = 5;
-		} else if (keys["D"]) {
-			yaw = -5;
-		}
-		if (keys["W"]) {
-			forward = -20;
-		} else if (keys["S"]) {
-			forward = 20;
+				var objLoader = new THREE.OBJLoader();
+				objLoader.setMaterials(materials);
+				objLoader.setPath(path);
+				objLoader.load(objFile, (object) => {
+					onLoadCallback(object);
+				});
+			});
 		}
 
-		if (isWorldReady[0] && isWorldReady[1]) {
-			
-			//EVALUANDO LA COLISION
-			//le preguntamos a THREEJS vector por vector, cuales han chocado (lo recorremos con un for)
+		function onKeyDown(event) {
+			keys[String.fromCharCode(event.keyCode)] = true;
+		}
 
-			for(var i=0; i<camera.rayos.length; i++){
+		function onKeyUp(event) {
+			keys[String.fromCharCode(event.keyCode)] = false;
+		}
 
-				var rayo= camera.rayos[i];
-				
 
-				raycaster.set(camera.position, rayo);//primer parametro desde donde y el ultimo hacia donde va TODO EN VECTORES
-				
-				//DETECTANDO LA COLISION
+		function render() {
+			requestAnimationFrame(render);
+			deltaTime = clock.getDelta();
 
-				//var colision = raycaster.intersectObject(box);//checa colision con un solo objecto, tenemos que duplicarlo para todos los demas objetos :C
-				//Existe una variante con objects envez de object y con eso le pasamos el arreglo de objetos con los que queremos que colisione
+			var yaw = 0;
+			var forward = 0;
+			if (keys["A"]) {
+				yaw = 5;
+			} else if (keys["D"]) {
+				yaw = -5;
+			}
+			if (keys["W"]) {
+				forward = -20;
+			} else if (keys["S"]) {
+				forward = 20;
+			}
 
-				//esto es un arreglo tmb
-				var colision = raycaster.intersectObjects(objetosConColision,true);//este es el metodo chido uwu
-				//el true tambien verigfica colision con los hijos de los modelos, en caso de que no pase por el padre uwu
-				
+			if (isWorldReady[0] && isWorldReady[1]) {
 
-				//validando que el arreglo tiene un dato(oseae  qeu colisionó)
-				if(colision.length>0 && colision[0].distance< 1 ){
-					//debugger;
-					console.log("COLISIONANDO!!");
+				//EVALUANDO LA COLISION
+				//le preguntamos a THREEJS vector por vector, cuales han chocado (lo recorremos con un for)
 
-					//SOLUTION
-					scene.remove(colision[0].object.parent);
-					
-		
+				for (var i = 0; i < camera.rayos.length; i++) {
 
-					//MY TRIES
-					/*for(var i=0; i<colision.length; i++)
-					{
-						scene.remove( collisions[0].object );
-					}*/
+					var rayo = camera.rayos[i];
 
-					//scene.remove(this.colision[i].object());
 
-				}	
+					raycaster.set(camera.position, rayo); //primer parametro desde donde y el ultimo hacia donde va TODO EN VECTORES
 
-				//NOS DAMOS CUENTA QUE YA MARCA COLISIONES SIN ESTAR CERCA DEL OBJETO PARA ESO LE CAMBIAMOS LA DISTANCIA DEL RAYO
+					//DETECTANDO LA COLISION
+
+					//var colision = raycaster.intersectObject(box);//checa colision con un solo objecto, tenemos que duplicarlo para todos los demas objetos :C
+					//Existe una variante con objects envez de object y con eso le pasamos el arreglo de objetos con los que queremos que colisione
+
+					//esto es un arreglo tmb
+					var colision = raycaster.intersectObjects(objetosConColision, true); //este es el metodo chido uwu
+					//el true tambien verigfica colision con los hijos de los modelos, en caso de que no pase por el padre uwu
+
+
+					//validando que el arreglo tiene un dato(oseae  qeu colisionó)
+					if (colision.length > 0 && colision[0].distance < 1) {
+						//debugger;
+						console.log("COLISIONANDO!!");
+
+						//SOLUTION
+						scene.remove(colision[0].object.parent);
+
+
+
+						//MY TRIES
+						/*for(var i=0; i<colision.length; i++)
+						{
+							scene.remove( collisions[0].object );
+						}*/
+
+						//scene.remove(this.colision[i].object());
+
+					}
+
+					//NOS DAMOS CUENTA QUE YA MARCA COLISIONES SIN ESTAR CERCA DEL OBJETO PARA ESO LE CAMBIAMOS LA DISTANCIA DEL RAYO
+
+				}
+				camera.rotation.y += yaw * deltaTime;
+				camera.translateZ(forward * deltaTime);
+
 
 			}
-			camera.rotation.y += yaw * deltaTime;
-			camera.translateZ(forward * deltaTime);
 
-			
-		}
-		
-	
-		renderer.render(scene, camera);
-		
-	}
 
-	function render2() {
-		requestAnimationFrame(render2);
-		deltaTime = clock2.getDelta();	
+			renderer.render(scene, camera);
 
-		var yaw2 = 0;
-		var forward2 = 0;
-		if (keys["J"]) { //izquierda
-			yaw2 = 5;
-		} else if (keys["L"]) { //derecha
-			yaw2 = -5;
-		}
-		if (keys["I"]) { //arriba 
-			forward2 = -20;
-		} else if (keys["K"]) { //abajo
-			forward2 = 20;
 		}
 
-		if (isWorldReady[0] && isWorldReady[1]) {
-			
-			//EVALUANDO LA COLISION
-			//le preguntamos a THREEJS vector por vector, cuales han chocado (lo recorremos con un for)
+		/* function render2() {
+				requestAnimationFrame(render2);
+				deltaTime = clock2.getDelta();	
 
-			for(var i=0; i<camera2.rayos.length; i++){
+				var yaw2 = 0;
+				var forward2 = 0;
+				if (keys["J"]) { //izquierda
+					yaw2 = 5;
+				} else if (keys["L"]) { //derecha
+					yaw2 = -5;
+				}
+				if (keys["I"]) { //arriba 
+					forward2 = -20;
+				} else if (keys["K"]) { //abajo
+					forward2 = 20;
+				}
 
-				var rayo2= camera2.rayos[i];
-
-				raycaster2.set(camera2.position, rayo2);//primer parametro desde donde y el ultimo hacia donde va TODO EN VECTORES
-
-				//DETECTANDO LA COLISION
-
-				//var colision = raycaster.intersectObject(box);//checa colision con un solo objecto, tenemos que duplicarlo para todos los demas objetos :C
-				//Existe una variante con objects envez de object y con eso le pasamos el arreglo de objetos con los que queremos que colisione
-
-				//esto es un arreglo tmb
-				var colision2 = raycaster2.intersectObjects(objetosConColision,true);//este es el metodo chido uwu
-				//el true tambien verigfica colision con los hijos de los modelos, en caso de que no pase por el padre uwu
-
-				//validando que el arreglo tiene un dato(oseae  qeu colisionó)
-				if(colision2.length>0 && colision2[0].distance< 1){
-					//debugger;
-					console.log("COLISIONANDO!!");
-
-					//SOLUTION
-					scene2.remove(colision2[0].object.parent);
+				if (isWorldReady[0] && isWorldReady[1]) {
 					
+					//EVALUANDO LA COLISION
+					//le preguntamos a THREEJS vector por vector, cuales han chocado (lo recorremos con un for)
 
-					//MY TRIES
-					/*for(var i=0; i<colision.length; i++)
-					{
-						scene.remove( collisions[0].object );
-					}*/
+					for(var i=0; i<camera2.rayos.length; i++){
 
-					//scene.remove(this.colision[i].object());
+						var rayo2= camera2.rayos[i];
 
-				}	
+						raycaster2.set(camera2.position, rayo2);//primer parametro desde donde y el ultimo hacia donde va TODO EN VECTORES
 
-				//NOS DAMOS CUENTA QUE YA MARCA COLISIONES SIN ESTAR CERCA DEL OBJETO PARA ESO LE CAMBIAMOS LA DISTANCIA DEL RAYO
+						//DETECTANDO LA COLISION
 
-			}
-			camera2.rotation.y += yaw2 * deltaTime;
-			camera2.translateZ(forward2 * deltaTime);
-		}
+						//var colision = raycaster.intersectObject(box);//checa colision con un solo objecto, tenemos que duplicarlo para todos los demas objetos :C
+						//Existe una variante con objects envez de object y con eso le pasamos el arreglo de objetos con los que queremos que colisione
+
+						//esto es un arreglo tmb
+						var colision2 = raycaster2.intersectObjects(objetosConColision2,true);//este es el metodo chido uwu
+						//el true tambien verigfica colision con los hijos de los modelos, en caso de que no pase por el padre uwu
+
+						//validando que el arreglo tiene un dato(oseae  qeu colisionó)
+						if(colision2.length>0 && colision2[0].distance< 1){
+							//debugger;
+							console.log("COLISIONANDO!!");
+
+							//SOLUTION
+							scene2.remove(colision2[0].object.parent);
+							
+
+							//MY TRIES
+							//for(var i=0; i<colision.length; i++)
+							//{
+							//	scene.remove( collisions[0].object );
+							//}
+
+							//scene.remove(this.colision[i].object());
+
+						}	
+
+						//NOS DAMOS CUENTA QUE YA MARCA COLISIONES SIN ESTAR CERCA DEL OBJETO PARA ESO LE CAMBIAMOS LA DISTANCIA DEL RAYO
+
+					}
+					camera2.rotation.y += yaw2 * deltaTime;
+					camera2.translateZ(forward2 * deltaTime);
+				}
+				
 		
-	
-		renderer2.render(scene2, camera2);
-	}
+				renderer2.render(scene2, camera2);
+			} */
 
-	function setupScene() {		
-		var visibleSize = { width: window.innerWidth, height: window.innerHeight};
-		clock = new THREE.Clock();		
-		scene = new THREE.Scene();
-		camera = new THREE.PerspectiveCamera(75, visibleSize.width / visibleSize.height, 0.1, 100);
-		camera.position.z = 2;
-		camera.position.y = 5;
+		function setupScene() {
+			var visibleSize = {
+				width: window.innerWidth,
+				height: window.innerHeight
+			};
+			clock = new THREE.Clock();
+			scene = new THREE.Scene();
+			camera = new THREE.PerspectiveCamera(75, visibleSize.width / visibleSize.height, 0.1, 300);
+			camera.position.z = 2;
+			camera.position.y = 80;
+			camera.rotation.x = THREE.Math.degToRad(-90);
 
-		renderer = new THREE.WebGLRenderer( {precision: "mediump" } );
-		renderer.setClearColor(new THREE.Color(0, 0, 0));
-		renderer.setPixelRatio(visibleSize.width / visibleSize.height);
-		renderer.setSize(visibleSize.width/1.22, visibleSize.height/2);
+			renderer = new THREE.WebGLRenderer({
+				precision: "mediump"
+			});
+			renderer.setClearColor(new THREE.Color(0, 0, 0));
+			renderer.setPixelRatio(visibleSize.width / visibleSize.height);
+			renderer.setSize(visibleSize.width / 1.22, visibleSize.height);
+			//renderer.setSize(visibleSize.width/1.22, visibleSize.height/2);
 
-		var ambientLight = new THREE.AmbientLight(new THREE.Color(1, 1, 1), 1.0);
-		scene.add(ambientLight);
+			var ambientLight = new THREE.AmbientLight(new THREE.Color(1, 1, 1), 1.0);
+			scene.add(ambientLight);
 
-		var directionalLight = new THREE.DirectionalLight(new THREE.Color(1, 1, 0), 0.4);
-		directionalLight.position.set(0, 0, 1);
-		scene.add(directionalLight);
+			var directionalLight = new THREE.DirectionalLight(new THREE.Color(1, 1, 0), 0.4);
+			directionalLight.position.set(0, 0, 1);
+			scene.add(directionalLight);
 
-		var grid = new THREE.GridHelper(50, 10, 0xffffff, 0xffffff);
-		grid.position.y = -1;
-		scene.add(grid);
+			var grid = new THREE.GridHelper(50, 10, 0xffffff, 0xffffff);
+			grid.position.y = -1;
+			scene.add(grid);
 
-        $("#scene-section").append(renderer.domElement);
-        
-	}
+			$("#scene-section").append(renderer.domElement);
 
-	function setupScene2() {		
-		var visibleSize = { width: window.innerWidth, height: window.innerHeight};
-		clock2 = new THREE.Clock();		
-		scene2 = new THREE.Scene();
-		camera2 = new THREE.PerspectiveCamera(75, visibleSize.width / visibleSize.height, 0.1, 100);
-		camera2.position.z = 2;
-		camera2.position.y = 5;
+		}
 
-		renderer2 = new THREE.WebGLRenderer( {precision: "mediump" } );
-		renderer2.setClearColor(new THREE.Color(0, 0, 0));
-		renderer2.setPixelRatio(visibleSize.width / visibleSize.height);
-		renderer2.setSize(visibleSize.width/1.22, visibleSize.height/2);
+		/* function setupScene2() {		
+			var visibleSize = { width: window.innerWidth, height: window.innerHeight};
+			clock2 = new THREE.Clock();		
+			scene2 = new THREE.Scene();
+			camera2 = new THREE.PerspectiveCamera(75, visibleSize.width / visibleSize.height, 0.1, 100);
+			camera2.position.z = 2;
+			camera2.position.y = 5;
 
-		var ambientLight = new THREE.AmbientLight(new THREE.Color(1, 1, 1), 1.0);
-		scene2.add(ambientLight);
+			renderer2 = new THREE.WebGLRenderer( {precision: "mediump" } );
+			renderer2.setClearColor(new THREE.Color(0, 0, 0));
+			renderer2.setPixelRatio(visibleSize.width / visibleSize.height);
+			renderer2.setSize(visibleSize.width/1.22, visibleSize.height/2);
 
-		var directionalLight = new THREE.DirectionalLight(new THREE.Color(1, 1, 0), 0.4);
-		directionalLight.position.set(0, 0, 1);
-		scene2.add(directionalLight);
+			var ambientLight = new THREE.AmbientLight(new THREE.Color(1, 1, 1), 1.0);
+			scene2.add(ambientLight);
 
-		var grid = new THREE.GridHelper(50, 10, 0xffffff, 0xffffff);
-		grid.position.y = -1;
-		scene2.add(grid);
+			var directionalLight = new THREE.DirectionalLight(new THREE.Color(1, 1, 0), 0.4);
+			directionalLight.position.set(0, 0, 1);
+			scene2.add(directionalLight);
 
-        $("#scene-section2").append(renderer2.domElement);
-        
-	}
+			var grid = new THREE.GridHelper(50, 10, 0xffffff, 0xffffff);
+			grid.position.y = -1;
+			scene2.add(grid);
 
-
+			$("#scene-section2").append(renderer2.domElement);
+		
+			}  */
 	</script>
 </head>
 
 <body>
+	<!--<audio src="audio/Maintitle.mp3" loop autoplay></audio>-->
+	<div id="leftContainerG">
+		<div id="canvasP1">
+			<div id="scene-section"></div>
+		</div>
+		<!--<div id="canvasP2">
+					<div id="scene-section2"></div>
+				</div>-->
+	</div>
 
-    <div id="scene-section"></div>
-    <div id="scene-section2"></div>
-    <button id="btn_exit" style="float:right">EXIT</button>
+	<div id="rightContainerG">
+		<div id="controlsContainer">
+			<div class="playerControls">
+				<p>PLAYER 1</p>
+				<img src="img/wasd.png" alt="controls">
 
+			</div>
+			<div class="playerControls">
+				<p>PLAYER 2</p>
+				<img src="img/arrowKeys.png" alt="controls">
+			</div>
+			<div class="playerControls">
+				<p>PAUSE</p>
+				<img src="img/letter_p.png" alt="">
+			</div>
+
+			<button id="btnExit"  class="button" style="width: 100px; top: -15px;">EXIT</button>
+
+		</div>
+	</div>
 </body>
+
 </html>
