@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html>
 
-<head>
+<head>  
+        <script>
+        //FIX:  Funcionalidad de javascript.
+        </script>
+    
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Hi-Scores</title>
+    <title>META-X</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="./css/main.css" />
     <!--<link rel="stylesheet" type="text/css" media="screen" href="./css/mainMenu.css" />-->
-    <script src="main.js"></script>
+    
     <!-- FIREBASE -->
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   
 
 </head>
 
@@ -20,7 +26,6 @@
             <ul id="buttonsList">
                 <li>
                     <a href="mainMenu.html"><input class="button" type="button" value="BACK TO MENU"></a>
-                    
                 </li>
             </ul>
         </div>
@@ -34,84 +39,89 @@
             <p class="puntajeTxt">9,999 pts</p>
             <p id="playerTxt">FULANO ZUTANO PERENGANO</p>
             <div id="showMore">
+                  
                 <div id="triangle-down"></div>
-                <button class="button2">Show More</button>
+                <div id="triangle-up"></div>
+                <button id="btn_more" class="button2">Show More</button>
+                <button id="btn_less" class="button2">Show Less</button>
             </div>
         </div>
 
-        <div id="extendedElements">
+       <!-- <div id="extendedElements">
             <div class="filaBody">
                 <div class="bodyElement">
                     <img src="./img/avatarPlaceholder.png" alt="userPicture">
                     <p class="otherP">7,850 pts</p>
                     <p class="otherN">Fulano Zutano Mengano</p>
                 </div>
-                <!--Cierra un elemento -->
+               
                 <div class="bodyElement">
                     <img src="./img/avatarPlaceholder.png" alt="userPicture">
                     <p class="otherP">Puntaje</p>
                     <p class="otherN">Fulano Zutano Mengano</p>
                 </div>
-                <!--Cierra un elemento -->
+                
                 <div class="bodyElement">
                     <img src="./img/avatarPlaceholder.png" alt="userPicture">
                     <p class="otherP">Puntaje</p>
                     <p class="otherN">Fulano Zutano Mengano</p>
                 </div>
-                <!--Cierra un elemento -->
+                
                 <div class="bodyElement">
                     <img src="./img/avatarPlaceholder.png" alt="userPicture">
                     <p class="otherP">Puntaje</p>
                     <p class="otherN">Fulano Zutano Mengano</p>
                 </div>
-                <!--Cierra un elemento -->
+                
                 <div class="bodyElement">
                     <img src="./img/avatarPlaceholder.png" alt="userPicture">
                     <p class="otherP">Puntaje</p>
                     <p class="otherN">Fulano Zutano Mengano</p>
                 </div>
-                <!--Cierra un elemento -->
+               
                 <div class="bodyElement">
                     <img src="./img/avatarPlaceholder.png" alt="userPicture">
                     <p class="otherP">Puntaje</p>
                     <p class="otherN">Fulano Zutano Mengano</p>
                 </div>
-                <!--Cierra un elemento -->
+                
                 <div class="bodyElement">
                     <img src="./img/avatarPlaceholder.png" alt="userPicture">
                     <p class="otherP">Puntaje</p>
                     <p class="otherN">Fulano Zutano Mengano</p>
                 </div>
-                <!--Cierra un elemento -->
+                
                 <div class="bodyElement">
                     <img src="./img/avatarPlaceholder.png" alt="userPicture">
                     <p class="otherP">Puntaje</p>
                     <p class="otherN">Fulano Zutano Mengano</p>
                 </div>
-                <!--Cierra un elemento -->
+                
                 <div class="bodyElement">
                     <img src="./img/avatarPlaceholder.png" alt="userPicture">
                     <p class="otherP">Puntaje</p>
                     <p class="otherN">Fulano Zutano Mengano</p>
                 </div>
-                <!--Cierra un elemento -->
+                
                 <div class="bodyElement">
                     <img src="./img/avatarPlaceholder.png" alt="userPicture">
                     <p class="otherP">Puntaje</p>
                     <p class="otherN">Fulano Zutano Mengano</p>
                 </div>
-                <!--Cierra un elemento -->
+                
                 <div class="bodyElement">
                     <img src="./img/avatarPlaceholder.png" alt="userPicture">
                     <p class="otherP">Puntaje</p>
                     <p class="otherN">Fulano Zutano Mengano</p>
                 </div>
-                <!--Cierra un elemento -->
+               
             </div>
-            <!--Cierra una fila -->
-        </div>
+           
+        </div>-->
     </div>
     <!--Cierra MAIN BODY-->
+
+    <script src="js/score.js"> </script>
 </body>
 
 </html>

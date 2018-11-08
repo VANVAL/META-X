@@ -47,7 +47,7 @@ ul{
     display: block;
     height: auto;
     width: 100%;
-    bottom: -440px;
+    bottom: -400px;
     right: 15px;
 }
 
@@ -65,7 +65,7 @@ ul{
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    width: 130px;
+    width: 140px;
 }
 
 

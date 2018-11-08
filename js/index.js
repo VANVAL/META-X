@@ -1,6 +1,18 @@
 userisLogged();
 
 $(document).ready(function () {
+
+    $("body").on('click','#txt_sign',function (){
+        $("#btn1").css("visibility", "visible");
+        $("#btn2").css("visibility", "hidden");
+    });
+
+     $("body").on('click','#txt_log',function (){
+        $("#btn1").css("visibility", "hidden");
+        $("#btn2").css("visibility", "visible");
+    });
+
+
     $("body").on('click', '#btn1', function () {
         var userSign = $('#signUser').val();
         var passSign = $('#signPass').val();

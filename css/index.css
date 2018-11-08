@@ -10,7 +10,7 @@ body {
     left: 50%;
     height: auto;
     width: auto;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -70%);
     align-content: center;
 }
 
@@ -43,7 +43,7 @@ body {
     font-size: 16px;
     transition-duration: 0.4s;
     display: block;
-    position: relative;
+    position: absolute;
     width: 130px;
     left: 50%;
     transform: translate(-50%);
@@ -56,6 +56,18 @@ body {
     background-color: rgb(25, 185, 177);
     cursor: pointer;
     color: white;
+}
+
+
+#txt_sign:hover,
+#txt_log:hover {
+    cursor: pointer;
+    color: rgb(25, 185, 177);
+}
+
+
+#btn2{
+    visibility: hidden;
 }
 
 h3 {
