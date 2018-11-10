@@ -19,4 +19,8 @@ class Player{
     loseHealth(){
         this.health = this.health-10;
     }
+
+    onCollision(){
+        
+    }
 }

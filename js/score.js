@@ -113,5 +113,7 @@ $(document).ready(function () {
 
         $("#btn_more").css("visibility", "visible");
         $("#showMore").prepend("<div id='triangle-down'></div>");
+
+        
     });
 });
