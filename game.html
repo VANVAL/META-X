@@ -38,6 +38,16 @@
 		var fondo;
 		//TODO: TERMINAN MODELOS
 
+
+		//TODO: VARIABLES HUD 
+		var cameraOrtho, sceneOrtho;
+		var spriteTL, spriteTR, spriteBL, spriteBR, spriteC;
+		var mapC;
+		var group;
+		//TODO: END HUD
+
+
+
 		//objeto para la colision
 		var raycaster;
 		var objetosConColision = []; //los objetos que si tenga colision  los agregamos a este arreglo
@@ -49,6 +59,7 @@
 
 		var isWorldReady = [false, false];
 		$(document).ready(function () {
+
 
 			//inicializando el raycaster
 			raycaster = new THREE.Raycaster();
@@ -68,26 +79,26 @@
 
 
 			//TODO: MODELS
-			loadOBJWithMTL("assets/ship1/", "spaceship1Triangles.obj", "spaceship1Triangles.mtl", (spaceship1) =>{
-				
-				naveTest=spaceship1;
-				
-				spaceship1.position.x= -100;
-				spaceship1.position.z= -30;
-				spaceship1.scale.set(2,3,3);
+			loadOBJWithMTL("assets/ship1/", "spaceship1Triangles.obj", "spaceship1Triangles.mtl", (spaceship1) => {
+
+				naveTest = spaceship1;
+
+				spaceship1.position.x = -100;
+				spaceship1.position.z = -30;
+				spaceship1.scale.set(2, 3, 3);
 
 				var spaceship2 = spaceship1.clone();
-				naveTest2=spaceship2;
+				naveTest2 = spaceship2;
 
 				spaceship1.rotation.y = THREE.Math.degToRad(90);
 				spaceship1.rotation.x = THREE.Math.degToRad(270);
-							
+
 				spaceship2.rotation.y = THREE.Math.degToRad(90);
 				spaceship2.rotation.x = THREE.Math.degToRad(270);
 				spaceship2.position.x = -100;
 				spaceship2.position.z = 30;
-				
-				
+
+
 				scene.add(spaceship1);
 				scene.add(spaceship2);
 
@@ -96,25 +107,25 @@
 				isWorldReady[0] = true;
 			});
 
-			
-			loadOBJWithMTL("assets/asteroid/", "AsteroidTriangles.obj", "AsteroidTriangles.mtl", (asteroid) =>{
-				
-				asteroid.position.x=10;				
+
+			loadOBJWithMTL("assets/asteroid/", "AsteroidTriangles.obj", "AsteroidTriangles.mtl", (asteroid) => {
+
+				asteroid.position.x = 10;
 				//scene.add(asteroid);
-				
+
 
 				//objetosConColision.push(asteroid);
 				isWorldReady[1] = true;
 			});
 
-			loadOBJWithMTL("assets/", "cube3.obj", "cube3.mtl", (fondo) =>{
-				
-				fondo.position.y= -150;
-				fondo.rotation.x= THREE.Math.degToRad(90);	
+			loadOBJWithMTL("assets/", "cube3.obj", "cube3.mtl", (fondo) => {
+
+				fondo.position.y = -150;
+				fondo.rotation.x = THREE.Math.degToRad(90);
 				//fondo.rotation.y= THREE.Math.degToRad(180);
-				fondo.scale.set(18,18,1);			
+				fondo.scale.set(18, 18, 1);
 				scene.add(fondo);
-				
+
 				//objetosConColision.push(fondo);
 
 				//isWorldReady[5] = true;
@@ -130,19 +141,22 @@
 				objetosConColision.push(spaceship3);
 				isWorldReady[4] = true;
 			}); */
-		//TODO: MODELS END
-			
+			//TODO: MODELS END
+
+
+
 			render();
 
 			document.addEventListener('keydown', onKeyDown);
 			document.addEventListener('keyup', onKeyUp);
+
 
 			// TODO: BOTON SALIR 
 			$("body").on('click', '#btnExit', function () {
 				$(location).attr('href', 'mainMenu.html');
 			});
 			//TODO: TERMINA BOTON SALIR
-	
+
 		});
 
 		function loadOBJWithMTL(path, objFile, mtlFile, onLoadCallback) {
@@ -179,20 +193,22 @@
 			//PLAYER 1
 			if (keys["A"]) {
 				yaw = -40;
-				
+
+
 			} else if (keys["D"]) {
 				yaw = 40;
 			}
 			if (keys["W"]) {
 				forward = 40;
+				//naveTest.rotation.y += THREE.Math.degToRad(15);
 			} else if (keys["S"]) {
 				forward = -40;
 			}
-			
+
 			//PLAYER 2 
-			 if (keys["J"]) {
+			if (keys["J"]) {
 				yaw2 = -40;
-				
+
 			} else if (keys["L"]) {
 				yaw2 = 30;
 			}
@@ -200,7 +216,7 @@
 				forward2 = 40;
 			} else if (keys["K"]) {
 				forward2 = -40;
-			} 
+			}
 
 			if (isWorldReady[0] && isWorldReady[1]) {
 
@@ -270,12 +286,46 @@
 				}
 				//naveTest.rotation.y += yaw * deltaTime;
 				naveTest.translateY(forward * deltaTime);
-				naveTest.translateZ( yaw  * deltaTime);
+				naveTest.translateZ(yaw * deltaTime);
 
 				naveTest2.translateY(forward2 * deltaTime);
-				naveTest2.translateZ( yaw2  * deltaTime);
+				naveTest2.translateZ(yaw2 * deltaTime);
 
 			}
+
+			//TODO: HUD 
+/*
+			var time = Date.now() / 1000;
+
+			for (var i = 0, l = group.children.length; i < l; i++) 
+			{
+				var sprite = group.children[i];
+				var material = sprite.material;
+				var scale = Math.sin(time + sprite.position.x * 0.01) * 0.3 + 1.0;
+				var imageWidth = 1;
+				var imageHeight = 1;
+
+
+				if (material.map && material.map.image && material.map.image.width) {
+					imageWidth = material.map.image.width;
+					imageHeight = material.map.image.height;
+				}
+				sprite.material.rotation += 0.1 * (i / l);
+				sprite.scale.set(scale * imageWidth, scale * imageHeight, 1.0);
+				if (material.map !== mapC) {
+					material.opacity = Math.sin(time + sprite.position.x * 0.01) * 0.4 + 0.6;
+				}
+			}
+
+			group.rotation.x = time * 0.5;
+			group.rotation.y = time * 0.75;
+			group.rotation.z = time * 1.0;
+			renderer2.clear();
+			renderer2.render(scene, camera);
+			renderer2.clearDepth();
+			renderer2.render(sceneOrtho, cameraOrtho);
+*/
+			//TODO: TERMINA HUD
 			renderer.render(scene, camera);
 
 		}
@@ -313,8 +363,172 @@
 
 			$("#scene-section").append(renderer.domElement);
 
+			//TODO: HUD
+/*
+			cameraOrtho = new THREE.OrthographicCamera(
+				-window.innerWidth / 2,
+				window.innerWidth / 2,
+				window.innerHeight / 2,
+				-window.innerHeight / 2,
+				1,
+				10
+			);
+			cameraOrtho.position.z = 10;
+
+			scene = new THREE.Scene();
+			scene.fog = new THREE.Fog(0x000000, 1500, 2100);
+
+			sceneOrtho = new THREE.Scene();
+			var textureLoader = new THREE.TextureLoader();
+
+			var amount = 200;
+			var radius = 500;
+
+
+			textureLoader.load("img/angry.png", createHUDSprites);
+
+			var mapB = textureLoader.load("img/angry.png");
+			mapC = textureLoader.load("img/angry.png");
+			group = new THREE.Group();
+
+			var materialC = new THREE.SpriteMaterial({
+				map: mapC,
+				color: 0xffffff,
+				fog: true
+			});
+			var materialB = new THREE.SpriteMaterial({
+				map: mapB,
+				color: 0xffffff,
+				fog: true
+			});
+
+			for (var a = 0; a < amount; a++) {
+
+				var x = Math.random() - 0.5;
+				var y = Math.random() - 0.5;
+				var z = Math.random() - 0.5;
+
+				var material;
+
+				if (z < 0) {
+					material = materialB.clone();
+				} else {
+					material = materialC.clone();
+					material.color.setHSL(0.5 * Math.random(), 0.75, 0.5);
+					material.map.offset.set(-0.5, -0.5);
+					material.map.repeat.set(2, 2);
+				}
+
+				var sprite = new THREE.Sprite(material);
+
+				sprite.position.set(x, y, z);
+				sprite.position.normalize();
+				sprite.position.multiplyScalar(radius);
+				group.add(sprite);
+			}
+			scene.add(group);
+
+			renderer2 = new THREE.WebGLRenderer();
+			renderer2.setPixelRatio(window.devicePixelRatio);
+			renderer2.setSize(window.innerWidth, window.innerHeight);
+			renderer2.autoClear = false; // To allow render overlay on top of sprited sphere
+			document.body.appendChild(renderer2.domElement);
+			
+			window.addEventListener('resize', onWindowResize, false);
+*/
+			//TODO: END HUD
+
 		}
 
+
+		//TODO: FUNCIONES HUD
+		/*function createHUDSprites(texture) {
+			var material = new THREE.SpriteMaterial({
+				map: texture
+			});
+
+			var width = material.map.image.width;
+			var height = material.map.image.height;
+
+			spriteTL = new THREE.Sprite(material);
+			//spriteTL.center.set(0.0, 1.0);
+			spriteTL.position.set(0.0,1.0,0.0);
+			spriteTL.scale.set(width, height, 1);
+
+			sceneOrtho.add(spriteTL);
+
+			spriteTR = new THREE.Sprite(material);
+			//spriteTR.center.set(1.0, 1.0);
+			spriteTR.position.set(1.0,0.0,1.0);
+			spriteTR.scale.set(width, height, 1);
+
+			sceneOrtho.add(spriteTR);
+			
+			
+			spriteBL = new THREE.Sprite(material);
+			debugger
+			//spriteBL.center.set(0.0, 0.0);
+			spriteBL.position.set(0.0,0.0,0.0);
+			spriteBL.scale.set(width, height, 1);
+
+			sceneOrtho.add(spriteBL);
+
+			spriteBR = new THREE.Sprite(material);
+			//spriteBR.center.set(1.0, 0.0);
+			spriteBR.position.set(1.0,0.0,0.0);
+			spriteBR.scale.set(width, height, 1);
+
+			sceneOrtho.add(spriteBR);
+
+			spriteC = new THREE.Sprite(material);
+			//spriteC.center.set(0.5, 0.5);
+			spriteC.position.set(0.5,0.5,0.0);
+			spriteC.scale.set(width, height, 1);
+
+			sceneOrtho.add(spriteC);
+
+			updateHUDSprites();
+		}
+
+		function updateHUDSprites() {
+			var width = window.innerWidth / 2;
+			var height = window.innerHeight / 2;
+
+			spriteTL.position.set(-width, height, 1); // top left
+
+			spriteTR.position.set(width, height, 1); // top right
+
+			spriteBL.position.set(-width, -height, 1); // bottom left
+
+			spriteBR.position.set(width, -height, 1); // bottom right
+
+			spriteC.position.set(0, 0, 1); // center
+		}
+
+		function onWindowResize() {
+			var width = window.innerWidth;
+			var height = window.innerHeight;
+
+			camera.aspect = width / height;
+			camera.updateProjectionMatrix();
+
+			cameraOrtho.left = -width / 2;
+			cameraOrtho.right = width / 2;
+			cameraOrtho.top = height / 2;
+			cameraOrtho.bottom = -height / 2;
+
+			cameraOrtho.updateProjectionMatrix();
+
+			updateHUDSprites();
+
+			renderer2.setSize(window.innerWidth, window.innerHeight);
+		}
+
+		function animate() {
+			requestAnimationFrame(animate);
+			render();
+		}*/
+		//TODO: TERMINAN FUNCIONES HUD
 	</script>
 </head>
 
@@ -345,7 +559,7 @@
 				<img src="img/letter_p.png" alt="">
 			</div>
 
-			<button id="btnExit"  class="button" style="width: 100px; top: 20px;">EXIT</button>
+			<button id="btnExit" class="button" style="width: 100px; top: 20px;">EXIT</button>
 
 		</div>
 	</div>
