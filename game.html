@@ -6,9 +6,13 @@
 	<script type="text/javascript" src="js/three/three.js"></script>
 	<script type="text/javascript" src="js/three/MTLLoader.js"></script>
 	<script type="text/javascript" src="js/three/OBJLoader.js"></script>
+	<script type="text/javascript" src="js/asteroid.js"></script>
+	<script type="text/javascript" src="js/player.js"></script>
+
 	<link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="css/game.css" />
 	<script type="text/javascript">
+
 		var scene;
 		var scene2;
 		var camera;
@@ -25,7 +29,23 @@
 		//TODO:VARIABLE DE PRUEBA
 		var naveTest;
 		var naveTest2;
+
+		var  numAsteroids=5;
+		var asteroidArray=[];
 		//TODO: END
+
+
+
+		//TODO: Level Edges	
+		var edgeX= 200;
+		var edgeXNot= -200;
+		
+		var edgeZ= 100;
+		var edgeZNot= -100;
+		//TODO: END Levl Edges;
+
+
+
 
 
 
@@ -36,6 +56,17 @@
 		var spaceship3;
 		var asteroid;
 		var fondo;
+		var meteorite;
+		var mesh;
+
+		var meteorite1;
+		var meteorite2;
+		var meteorite3;
+		var meteorite4;
+		var meteorite5; 
+		var meteorite6; 
+		var meteorite7; 
+		var meteorite8;   
 		//TODO: TERMINAN MODELOS
 
 
@@ -53,8 +84,6 @@
 		var objetosConColision = []; //los objetos que si tenga colision  los agregamos a este arreglo
 		//UNA VEZ QUE QUITES EL OBJETO DE LA ESCENA QUITALO DEL ARREGLO TAMBIEN
 
-		/* var raycaster2;
-		var objetosConColision2 = []; */
 
 
 		var isWorldReady = [false, false];
@@ -63,10 +92,10 @@
 
 			//inicializando el raycaster
 			raycaster = new THREE.Raycaster();
-			//raycaster2 = new THREE.Raycaster();
+			
 
 			setupScene();
-			//setupScene2();
+			
 
 
 			//creando los rayos a disparar para la colision
@@ -76,7 +105,14 @@
 				new THREE.Vector3(0, 0, 1),
 				new THREE.Vector3(0, 0, -1),
 			]; //esta disparando en sus 4 puntos cardinales
+			
+			//mesh = new THREE.Object3D();
+			/*meteorite = new Asteroid("assets/asteroid/",
+									 "AsteroidTriangles.obj",
+									 "AsteroidTriangles.mtl",
+									  new THREE.Vector3(10,0,0));*/
 
+			
 
 			//TODO: MODELS
 			loadOBJWithMTL("assets/ship1/", "spaceship1Triangles.obj", "spaceship1Triangles.mtl", (spaceship1) => {
@@ -98,7 +134,6 @@
 				spaceship2.position.x = -100;
 				spaceship2.position.z = 30;
 
-
 				scene.add(spaceship1);
 				scene.add(spaceship2);
 
@@ -110,9 +145,94 @@
 
 			loadOBJWithMTL("assets/asteroid/", "AsteroidTriangles.obj", "AsteroidTriangles.mtl", (asteroid) => {
 
-				asteroid.position.x = 10;
-				//scene.add(asteroid);
+				//console.log(asteroid);
+				//meteorite = new Asteroid(asteroid);
 
+				asteroid.rotation.y = THREE.Math.degToRad(-90);
+				asteroid.scale.set(.5,.5,.5);
+
+				meteorite1 = asteroid.clone();
+				meteorite2 = asteroid.clone();
+				meteorite3 = asteroid.clone();
+				meteorite4 = asteroid.clone();
+				meteorite5 = asteroid.clone();
+				meteorite6 = asteroid.clone();
+				meteorite7 = asteroid.clone();
+				
+
+				//Z negativo es hacia arriba
+
+				//Max width (X) -200 a 200
+				//Max height (Z) -100 a 100
+				meteorite1.position.x = 100;
+
+				meteorite2.position.x = 100;
+				meteorite2.position.z = -20; 
+
+				meteorite3.position.x = 100;
+				meteorite3.position.z = -50;
+
+				meteorite4.position.x = 100;
+				meteorite4.position.z = -70;
+
+				meteorite5.position.x = 100;
+				meteorite5.position.z = 20;
+
+				meteorite6.position.x = 100;
+				meteorite6.position.z = 50;
+
+				meteorite7.position.x = 100;
+				meteorite7.position.z = 70;
+				
+
+				var posRandomX;
+				var posRandomY;
+				var elemento;
+
+				for(var i=0; i<numAsteroids; i++)
+				{	
+
+					posRandomX = getRandomIntInclusive(window.innerWidth, window.innerHeight);
+					posRandomY = getRandomIntInclusive(window.innerWidth, window.innerHeight);
+
+					/* elemento=mesh.clone();
+					elemento.position.x=posRandomX;
+					elemento.position.y=posRandomY; */
+
+					//asteroidArray.push(elemento);
+					//scene.add(asteroidArray[i].elemento);
+
+					/* meteorite1.position.x=posRandomX;
+					meteorite1.position.y=posRandomY;
+
+					meteorite2.position.x=posRandomX;
+					meteorite2.position.y=posRandomY;
+
+					meteorite3.position.x=posRandomX;
+					meteorite3.position.y=posRandomY;
+
+					meteorite4.position.x=posRandomX;
+					meteorite4.position.y=posRandomY;
+
+					meteorite5.position.x=posRandomX;
+					meteorite5.position.y=posRandomY; */
+				}
+
+				//asteroid.position.x = 10;
+				
+				//scene.add(asteroid);
+				
+				
+
+				scene.add(meteorite1);
+				scene.add(meteorite2);
+				scene.add(meteorite2);
+				scene.add(meteorite3);
+				scene.add(meteorite4);
+				scene.add(meteorite5);
+				scene.add(meteorite6);
+				scene.add(meteorite7);
+				
 
 				//objetosConColision.push(asteroid);
 				isWorldReady[1] = true;
@@ -142,8 +262,6 @@
 				isWorldReady[4] = true;
 			}); */
 			//TODO: MODELS END
-
-
 
 			render();
 
@@ -177,6 +295,14 @@
 			keys[String.fromCharCode(event.keyCode)] = true;
 		}
 
+		function getRandomIntInclusive(min, max) 
+		{
+			min = Math.ceil(min);
+			max = Math.floor(max);
+			return Math.floor(Math.random() * (max - min + 1)) + min; 
+			//The maximum is inclusive and the minimum is inclusive 
+		}
+
 		function onKeyUp(event) {
 			keys[String.fromCharCode(event.keyCode)] = false;
 		}
@@ -206,15 +332,15 @@
 			}
 
 			//PLAYER 2 
-			if (keys["J"]) {
+			if (keys["%"]) {
 				yaw2 = -40;
 
-			} else if (keys["L"]) {
+			} else if (keys["'"]) {
 				yaw2 = 30;
 			}
-			if (keys["I"]) {
+			if (keys["&"]) {
 				forward2 = 40;
-			} else if (keys["K"]) {
+			} else if (keys["("]) {
 				forward2 = -40;
 			}
 
@@ -269,16 +395,6 @@
 						//SOLUTION
 						scene.remove(colision[0].object.parent);
 
-
-
-						//MY TRIES
-						/*for(var i=0; i<colision.length; i++)
-						{
-							scene.remove( collisions[0].object );
-						}*/
-
-						//scene.remove(this.colision[i].object());
-
 					}
 
 					//NOS DAMOS CUENTA QUE YA MARCA COLISIONES SIN ESTAR CERCA DEL OBJETO PARA ESO LE CAMBIAMOS LA DISTANCIA DEL RAYO
@@ -290,6 +406,12 @@
 
 				naveTest2.translateY(forward2 * deltaTime);
 				naveTest2.translateZ(yaw2 * deltaTime);
+				
+
+				meteorite1.rotateY(THREE.Math.degToRad(10));
+				meteorite1.translateZ(100.0*deltaTime);
+				
+				
 
 			}
 
@@ -362,6 +484,10 @@
 			//scene.add(grid);
 
 			$("#scene-section").append(renderer.domElement);
+
+
+
+
 
 			//TODO: HUD
 /*
