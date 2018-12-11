@@ -115,7 +115,7 @@
 			
 
 			//TODO: MODELS
-			loadOBJWithMTL("assets/ship1/", "spaceship1Triangles.obj", "spaceship1Triangles.mtl", (spaceship1) => {
+			loadOBJWithMTL("assets/ship1/", "newShip.obj", "newShip.mtl", (spaceship1) => {
 
 				naveTest = spaceship1;
 
@@ -126,8 +126,8 @@
 				var spaceship2 = spaceship1.clone();
 				naveTest2 = spaceship2;
 
-				spaceship1.rotation.y = THREE.Math.degToRad(90);
-				spaceship1.rotation.x = THREE.Math.degToRad(270);
+				//spaceship1.rotation.y = THREE.Math.degToRad(90);
+				//spaceship1.rotation.x = THREE.Math.degToRad(270);
 
 				spaceship2.rotation.y = THREE.Math.degToRad(90);
 				spaceship2.rotation.x = THREE.Math.degToRad(270);
@@ -143,7 +143,7 @@
 			});
 
 
-			loadOBJWithMTL("assets/asteroid/", "AsteroidTriangles.obj", "AsteroidTriangles.mtl", (asteroid) => {
+			loadOBJWithMTL("assets/asteroid/", "newAsteroid.obj", "newAsteroid.mtl", (asteroid) => {
 
 				//console.log(asteroid);
 				//meteorite = new Asteroid(asteroid);
@@ -326,7 +326,7 @@
 			}
 			if (keys["W"]) {
 				forward = 40;
-				//naveTest.rotation.y += THREE.Math.degToRad(15);
+				naveTest.rotation.x += THREE.Math.degToRad(-15);
 			} else if (keys["S"]) {
 				forward = -40;
 			}
@@ -408,8 +408,8 @@
 				naveTest2.translateZ(yaw2 * deltaTime);
 				
 
-				meteorite1.rotateY(THREE.Math.degToRad(10));
-				meteorite1.translateZ(100.0*deltaTime);
+				meteorite1.rotateZ(THREE.Math.degToRad(1));
+				meteorite1.translateZ(10.0*deltaTime);
 				
 				
 
