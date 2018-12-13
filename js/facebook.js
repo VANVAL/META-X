@@ -1,8 +1,8 @@
 window.fbAsyncInit = function() {
     FB.init({
-      appId      : '267162127460018', //APP ID
+      appId      : '1184430058397624', //APP ID
       xfbml      : true,
-      version    : 'v2.9'
+      version    : 'v3.2'
     });
     FB.AppEvents.logPageView();
   };
