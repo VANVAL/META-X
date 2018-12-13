@@ -26,31 +26,31 @@
 		var deltaTime;
 		var keys = {};
 
-		//TODO:VARIABLE DE PRUEBA
+		var player1;
+		var player2;
+
+		var gameIsPaused=false;
+		var isPlay=true;
+
+
+		//NOTE:VARIABLE DE PRUEBA
 		var naveTest;
 		var naveTest2;
 
-		var  numAsteroids=5;
+		var  numAsteroids=10;
 		var asteroidArray=[];
-		//TODO: END
+		var triggerArray=[];
+
+		var posRandomX;
+		var posRandomZ;
+		var elemento;
+		var speed;
+
+		//NOTE: END
 
 
 
-		//TODO: Level Edges	
-		var edgeX= 200;
-		var edgeXNot= -200;
-		
-		var edgeZ= 100;
-		var edgeZNot= -100;
-		//TODO: END Levl Edges;
-
-
-
-
-
-
-
-		//TODO: MODELOS AQUI
+		//NOTE: MODELOS AQUI
 		var spaceship1;
 		var spaceship2;
 		var spaceship3;
@@ -66,87 +66,125 @@
 		var meteorite5; 
 		var meteorite6; 
 		var meteorite7; 
-		var meteorite8;   
-		//TODO: TERMINAN MODELOS
+		var meteorite8;  
+		var meteorite9;   
+		var meteorite10;  
+
+		var moonRock;
+
+		var triggerBox;
+
+		var moonLight;
+		//NOTE: TERMINAN MODELOS
 
 
-		//TODO: VARIABLES HUD 
+		//NOTE: VARIABLES HUD 
 		var cameraOrtho, sceneOrtho;
 		var spriteTL, spriteTR, spriteBL, spriteBR, spriteC;
 		var mapC;
 		var group;
-		//TODO: END HUD
+		//NOTE: END HUD
 
 
 
 		//objeto para la colision
-		var raycaster;
+		var raycasterP1;
+		var raycasterP2;
 		var objetosConColision = []; //los objetos que si tenga colision  los agregamos a este arreglo
 		//UNA VEZ QUE QUITES EL OBJETO DE LA ESCENA QUITALO DEL ARREGLO TAMBIEN
 
-
-
 		var isWorldReady = [false, false];
+
 		$(document).ready(function () {
+
+			$("body").on('click', '#tecla', function () {
+				
+				$('#btnUnpause').trigger('click');
+			});
+
+			$("body").on('click', '#btnUnpause', function () {
+				console.log('FUNCIONA');
+				if(gameIsPaused){
+					gameIsPaused=false;
+				}
+			});
 
 
 			//inicializando el raycaster
 			raycaster = new THREE.Raycaster();
+			raycasterP1 = new THREE.Raycaster();
+			raycasterP2 = new THREE.Raycaster();
 			
-
 			setupScene();
 			
-
-
-			//creando los rayos a disparar para la colision
-			camera.rayos = [
+			spaceship1= new THREE.Object3D();
+			scene.add(spaceship1);
+			spaceship1.rayos = [ //Este es el padre de los rayos uwu
 				new THREE.Vector3(1, 0, 0),
 				new THREE.Vector3(-1, 0, 0),
 				new THREE.Vector3(0, 0, 1),
-				new THREE.Vector3(0, 0, -1),
-			]; //esta disparando en sus 4 puntos cardinales
+				new THREE.Vector3(0, 0, -1)
+			];
+	
+			spaceship2= new THREE.Object3D();
+			scene.add(spaceship2);
+			spaceship2.rayos = [
+				new THREE.Vector3(1, 0, 0),
+				new THREE.Vector3(-1, 0, 0),
+				new THREE.Vector3(0, 0, 1),
+				new THREE.Vector3(0, 0, -1)
+			];
 			
-			//mesh = new THREE.Object3D();
-			/*meteorite = new Asteroid("assets/asteroid/",
-									 "AsteroidTriangles.obj",
-									 "AsteroidTriangles.mtl",
-									  new THREE.Vector3(10,0,0));*/
+			moonRock= new THREE.Object3D();
+			scene.add(moonRock);
+			moonRock.rayos = [ //Este es el padre de los rayos uwu
+			new THREE.Vector3(1, 0, 0),
+			new THREE.Vector3(-1, 0, 0),
+			new THREE.Vector3(0, 0, 1),
+			new THREE.Vector3(0, 0, -1)
+			]; 
+
+
+			var material = new THREE.MeshLambertMaterial({color: new THREE.Color(1,0,0)});
+			var geometry = new THREE.BoxGeometry(30.0,30.0,30.0); 
+			triggerBox=new THREE.Object3D();
+			triggerBox = new THREE.Mesh(geometry,material);
+			scene.add(triggerBox);
+			triggerBox.visible=false;
+			for(i=0; i<numAsteroids; i++)
+			{
+				triggerArray[i] = triggerBox.clone();
+			}
+
+
+
+			//NOTE: MODELS
+			loadOBJWithMTL("assets/ship1/", "newShip2.obj", "newShip2.mtl", (ship) => {
 
 			
+				//ship.position.x = -100;
+				//ship.position.z = -30;
+				ship.scale.set(2, 3, 3);	
 
-			//TODO: MODELS
-			loadOBJWithMTL("assets/ship1/", "newShip.obj", "newShip.mtl", (spaceship1) => {
-
-				naveTest = spaceship1;
+				spaceship1.add(ship);
+				spaceship2.add(ship.clone());
+				
 
 				spaceship1.position.x = -100;
 				spaceship1.position.z = -30;
-				spaceship1.scale.set(2, 3, 3);
 
-				var spaceship2 = spaceship1.clone();
-				naveTest2 = spaceship2;
-
-				//spaceship1.rotation.y = THREE.Math.degToRad(90);
-				//spaceship1.rotation.x = THREE.Math.degToRad(270);
-
-				spaceship2.rotation.y = THREE.Math.degToRad(90);
-				spaceship2.rotation.x = THREE.Math.degToRad(270);
 				spaceship2.position.x = -100;
 				spaceship2.position.z = 30;
 
-				scene.add(spaceship1);
-				scene.add(spaceship2);
+				naveTest = spaceship1;
+				naveTest2=spaceship2;
 
-
-				//objetosConColision.push(spaceship1);
 				isWorldReady[0] = true;
 			});
 
 
-			loadOBJWithMTL("assets/asteroid/", "newAsteroid.obj", "newAsteroid.mtl", (asteroid) => {
-
-				//console.log(asteroid);
-				//meteorite = new Asteroid(asteroid);
+			
+			loadOBJWithMTL("assets/asteroid/", "AsteroidTriangles.obj", "AsteroidTriangles.mtl", (asteroid) => {
 
 				asteroid.rotation.y = THREE.Math.degToRad(-90);
 				asteroid.scale.set(.5,.5,.5);
@@ -158,85 +196,97 @@
 				meteorite5 = asteroid.clone();
 				meteorite6 = asteroid.clone();
 				meteorite7 = asteroid.clone();
+				meteorite8 = asteroid.clone();
+				meteorite9 = asteroid.clone();
+				meteorite10 = asteroid.clone();
 				
 
 				//Z negativo es hacia arriba
 
 				//Max width (X) -200 a 200
 				//Max height (Z) -100 a 100
-				meteorite1.position.x = 100;
+					
+				asteroidArray.push(meteorite1);
+				asteroidArray.push(meteorite2);
+				asteroidArray.push(meteorite3);
+				asteroidArray.push(meteorite4);
+				asteroidArray.push(meteorite5);
+				asteroidArray.push(meteorite6);
+				asteroidArray.push(meteorite7);
+				asteroidArray.push(meteorite8);
+				asteroidArray.push(meteorite9);
+				asteroidArray.push(meteorite10);
 
-				meteorite2.position.x = 100;
-				meteorite2.position.z = -20; 
-
-				meteorite3.position.x = 100;
-				meteorite3.position.z = -50;
-
-				meteorite4.position.x = 100;
-				meteorite4.position.z = -70;
-
-				meteorite5.position.x = 100;
-				meteorite5.position.z = 20;
-
-				meteorite6.position.x = 100;
-				meteorite6.position.z = 50;
-
-				meteorite7.position.x = 100;
-				meteorite7.position.z = 70;
 				
-
-				var posRandomX;
-				var posRandomY;
-				var elemento;
-
 				for(var i=0; i<numAsteroids; i++)
 				{	
 
-					posRandomX = getRandomIntInclusive(window.innerWidth, window.innerHeight);
-					posRandomY = getRandomIntInclusive(window.innerWidth, window.innerHeight);
+					posRandomX = Math.floor(((Math.random() * window.innerWidth)/4));
+					posRandomZ = Math.floor(((Math.random() * window.innerHeight/4)-50));
+					
 
-					/* elemento=mesh.clone();
-					elemento.position.x=posRandomX;
-					elemento.position.y=posRandomY; */
+					if(posRandomX < 100){
+						posRandomX = posRandomX + (100 - posRandomX);
+					}else{
+						if(posRandomZ < -100)
+							{
+								posRandomZ = posRandomZ - (posRandomZ-(-100));
+							}else{
+								if(posRandomZ > 100)
+								{
+									posRandomZ = posRandomZ - (posRandomZ-100);
+								}
+							}
+						
+							
+					}
 
-					//asteroidArray.push(elemento);
-					//scene.add(asteroidArray[i].elemento);
+					asteroidArray[i].position.x = posRandomX;
+					asteroidArray[i].position.z = posRandomZ;
+					
+				
+					
+					
+					asteroidArray[i].add(triggerArray[i]);
 
-					/* meteorite1.position.x=posRandomX;
-					meteorite1.position.y=posRandomY;
+					objetosConColision.push(asteroidArray[i]);
 
-					meteorite2.position.x=posRandomX;
-					meteorite2.position.y=posRandomY;
-
-					meteorite3.position.x=posRandomX;
-					meteorite3.position.y=posRandomY;
-
-					meteorite4.position.x=posRandomX;
-					meteorite4.position.y=posRandomY;
-
-					meteorite5.position.x=posRandomX;
-					meteorite5.position.y=posRandomY; */
+					scene.add(asteroidArray[i]);	
 				}
 
-				//asteroid.position.x = 10;
+			
 				
-				//scene.add(asteroid);
-				
-				
-
-				scene.add(meteorite1);
-				scene.add(meteorite2);
-				scene.add(meteorite2);
-				scene.add(meteorite3);
-				scene.add(meteorite4);
-				scene.add(meteorite5);
-				scene.add(meteorite6);
-				scene.add(meteorite7);
-				
-
-				//objetosConColision.push(asteroid);
 				isWorldReady[1] = true;
 			});
+
+			loadOBJWithMTL("assets/rock/", "rocaOBJ.obj", "rocaOBJ.mtl", (moon) => {
+				
+				//moon.position.x=50;
+				//moon.position.z=0;
+				moon.scale.set(0.5,0.3,0.5);
+
+				moonLight = new THREE.PointLight(new THREE.Color(0, 0.5, 0.5), 2.0);
+				moonLight.position.set(moonRock.position.x,moonRock.position.y-50,moonRock.position.z);
+				moonLight.scale.set(3,3,3);
+				moon.add(moonLight);
+				moonRock.add(moon);
+			//	scene.add(moonRock);
+
+				//objetosConColision.push(fondo);
+
+				//isWorldReady[5] = true;
+				});
+
+				/* loadOBJWithMTL("assets/ship3/", "ship3.obj", "ship3.mtl", (spaceship3) =>{
+
+				spaceship3.position.x=20;
+				spaceship3.position.z=20;				
+				scene.add(spaceship3);
+
+
+				objetosConColision.push(spaceship3);
+				isWorldReady[4] = true;
+			}); */
 
 			loadOBJWithMTL("assets/", "cube3.obj", "cube3.mtl", (fondo) => {
 
@@ -261,7 +311,7 @@
 				objetosConColision.push(spaceship3);
 				isWorldReady[4] = true;
 			}); */
-			//TODO: MODELS END
+			//NOTE: MODELS END
 
 			render();
 
@@ -269,11 +319,11 @@
 			document.addEventListener('keyup', onKeyUp);
 
 
-			// TODO: BOTON SALIR 
+			// NOTE: BOTON SALIR 
 			$("body").on('click', '#btnExit', function () {
 				$(location).attr('href', 'mainMenu.html');
 			});
-			//TODO: TERMINA BOTON SALIR
+			//NOTE: TERMINA BOTON SALIR
 
 		});
 
@@ -295,40 +345,56 @@
 			keys[String.fromCharCode(event.keyCode)] = true;
 		}
 
-		function getRandomIntInclusive(min, max) 
-		{
-			min = Math.ceil(min);
-			max = Math.floor(max);
-			return Math.floor(Math.random() * (max - min + 1)) + min; 
-			//The maximum is inclusive and the minimum is inclusive 
-		}
-
 		function onKeyUp(event) {
 			keys[String.fromCharCode(event.keyCode)] = false;
 		}
 
+		function togglePause()
+		{
+			if (!gameIsPaused)
+			{
+				gameIsPaused = true;
+			} else if (gameIsPaused)
+			{
+				gameIsPaused = false;	
+			}
+		}
 
 		function render() {
-			requestAnimationFrame(render);
+
+			if(!gameIsPaused)
+			{
+				requestAnimationFrame(render);		
+			}else{
+				cancelAnimationFrame(render);
+			}
+			
+			//requestAnimationFrame(render);
 			deltaTime = clock.getDelta();
 
+			
 			var yaw = 0;
 			var forward = 0;
 			var yaw2 = 0;
 			var forward2 = 0;
-			//PLAYER 1
-			if (keys["A"]) {
-				yaw = -40;
+			
 
+			if (keys["P"]) {	
+				togglePause();
+			}
+			
+			//PLAYER 1
+			if (keys["A"]) {	
+				yaw = -40;
 
 			} else if (keys["D"]) {
 				yaw = 40;
 			}
-			if (keys["W"]) {
-				forward = 40;
-				naveTest.rotation.x += THREE.Math.degToRad(-15);
-			} else if (keys["S"]) {
+			if (keys["W"]) {	
 				forward = -40;
+				//naveTest.rotation.x += THREE.Math.degToRad(-15);
+			} else if (keys["S"]) {
+				forward = 40;
 			}
 
 			//PLAYER 2 
@@ -339,38 +405,54 @@
 				yaw2 = 30;
 			}
 			if (keys["&"]) {
-				forward2 = 40;
-			} else if (keys["("]) {
 				forward2 = -40;
+			} else if (keys["("]) {
+				forward2 = 40;
 			}
 
 			if (isWorldReady[0] && isWorldReady[1]) {
 
-
-				//TODO: Colisiones spaceship1
-				/* for(var i = 0; i < spaceship1.rayos.length; i++)
-				{
-					var rayo2= spaceship1.rayos[i];
-					raycaster2.set(spaceship1.position, rayo2);
-
-					var colision2 = raycaster2.intersectObjects(objetosConColision, true); 
-
-					if (colision2.length > 0 && colision2[0].distance < 1) {
-						//debugger;
-						console.log("COLISIONANDO!!");
+				//NOTE: Colisiones spaceship1
+				 for(var i = 0; i < spaceship1.rayos.length; i++)
+				{ 
+					//var rayoP1 = spaceship1.rayos[i];
+					raycasterP1.set(spaceship1.position,spaceship1.rayos[i]);
+					
+					var colisionP1 = raycasterP1.intersectObjects(objetosConColision, true); 
+					
+					if (colisionP1.length > 0 && colisionP1[0].distance < 1) {
+						
+						console.log("COLISIONANDO P1!!");
 
 						//SOLUTION
-						scene.remove(colision2[0].object.parent);
+						scene.remove(colisionP1[0].object.parent);
 
 					}
-				} */
-				//TODO: Terminan colisiones spaceship1
+				} 
+
+					 for(var i = 0; i < spaceship2.rayos.length; i++)
+				{ 
+					//var rayoP1 = spaceship1.rayos[i];
+					raycasterP2.set(spaceship2.position,spaceship2.rayos[i]);
+					
+					var colisionP2 = raycasterP2.intersectObjects(objetosConColision, true); 
+					
+					if (colisionP2.length > 0 && colisionP2[0].distance < 1) {
+						
+						console.log("COLISIONANDO P2!!");
+
+						//SOLUTION
+						scene.remove(colisionP2[0].object.parent);
+
+					}
+				} 
+				//NOTE: Terminan colisiones spaceship1
 
 
 				//EVALUANDO LA COLISION
 				//le preguntamos a THREEJS vector por vector, cuales han chocado (lo recorremos con un for)
 
-				for (var i = 0; i < camera.rayos.length; i++) {
+				/*for (var i = 0; i < camera.rayos.length; i++) {
 
 					var rayo = camera.rayos[i];
 
@@ -379,11 +461,11 @@
 
 					//DETECTANDO LA COLISION
 
-					//var colision = raycaster.intersectObject(box);//checa colision con un solo objecto, tenemos que duplicarlo para todos los demas objetos :C
+					//var colision = raycaster.intersectObject(box);//checa colision con un solo objeto, tenemos que duplicarlo para todos los demas objetos :C
 					//Existe una variante con objects envez de object y con eso le pasamos el arreglo de objetos con los que queremos que colisione
 
 					//esto es un arreglo tmb
-					var colision = raycaster.intersectObjects(objetosConColision, true); //este es el metodo chido uwu
+					var colision = raycaster.intersectObjects(objetosConColision, true); //este es el meNOTE chido uwu
 					//el true tambien verigfica colision con los hijos de los modelos, en caso de que no pase por el padre uwu
 
 
@@ -399,23 +481,118 @@
 
 					//NOS DAMOS CUENTA QUE YA MARCA COLISIONES SIN ESTAR CERCA DEL OBJETO PARA ESO LE CAMBIAMOS LA DISTANCIA DEL RAYO
 
-				}
+				}*/
+
 				//naveTest.rotation.y += yaw * deltaTime;
-				naveTest.translateY(forward * deltaTime);
-				naveTest.translateZ(yaw * deltaTime);
+				/* spaceship1.translateX(forward * deltaTime);
+				
+				spaceship1.translateZ(yaw * deltaTime);
 
-				naveTest2.translateY(forward2 * deltaTime);
-				naveTest2.translateZ(yaw2 * deltaTime);
+				spaceship2.translateX(forward2 * deltaTime);
+				spaceship2.translateZ(yaw2 * deltaTime); */
+
+				naveTest.translateZ(forward  * deltaTime);
+				naveTest.translateX(yaw * deltaTime);
+
+				naveTest2.translateZ(forward2 * deltaTime);
+				naveTest2.translateX(yaw2 * deltaTime);
+				
+				//NOTE: Limiting player movement
+				//NAVE 1
+				if(naveTest.position.z > 70)
+				{
+					naveTest.position.z=70;
+				}else{
+					if(naveTest.position.z < -70)
+					{
+						naveTest.position.z=-70;
+					}
+				}
+
+				if(naveTest.position.x > 145)
+				{
+					naveTest.position.x=145;
+				}else{
+					if(naveTest.position.x < -145)
+					{
+						naveTest.position.x=-145;
+					}
+				}
+				
+				//NAVE2
+				if(naveTest2.position.z > 70)
+				{
+					naveTest2.position.z=70;
+				}else{
+					if(naveTest2.position.z < -70)
+					{
+						naveTest2.position.z=-70;
+					}
+				}
+
+				if(naveTest2.position.x > 145)
+				{
+					naveTest2.position.x=145;
+				}else{
+					if(naveTest2.position.x < -145)
+					{
+						naveTest2.position.x=-145;
+					}
+				}
+				//NOTE:END Limiting player movement
+
+				var anim = false;	
+				if(!anim)
+				{
+					
+					moonLight.scale.set(10.0,10.0,10.0);
+					moonRock.add(moonLight);
+					anim = true;
+				}else{
+					
+					moonLight.scale.set(3.0,3.0,3.0);
+					moonRock.add(moonLight);
+					anim = false;
+				}
+				
 				
 
-				meteorite1.rotateZ(THREE.Math.degToRad(1));
-				meteorite1.translateZ(10.0*deltaTime);
-				
-				
+				//NOTE:Animating Asteroids
+				for(i=0; i<numAsteroids; i++)
+				{	
+					if(asteroidArray[i].position.x < -200)
+					{	
+						
+						scene.remove(asteroidArray[i]);
 
-			}
+						posRandomX = Math.floor(((Math.random() * window.innerWidth)/4)+50);
+						posRandomZ = Math.floor(((Math.random() * window.innerHeight/8)-50));
 
-			//TODO: HUD 
+						asteroidArray[i].position.x = posRandomX;
+						asteroidArray[i].position.z = posRandomZ;
+
+						scene.add(asteroidArray[i]);
+
+						speed = Math.floor((Math.random() * 60) + 1);
+
+						asteroidArray[i].rotateZ(THREE.Math.degToRad(1));
+						asteroidArray[i].translateZ(speed*deltaTime);
+					}else{
+						speed = Math.floor((Math.random() * 60) + 1);
+
+						asteroidArray[i].rotateZ(THREE.Math.degToRad(1));
+						asteroidArray[i].translateZ(speed*deltaTime);
+					}
+
+				}	
+				//NOTE: END Animating Asteroids	
+				
+			}//Closes is world ready
+
+
+
+
+			//NOTE: HUD 
 /*
 			var time = Date.now() / 1000;
 
@@ -447,10 +624,11 @@
 			renderer2.clearDepth();
 			renderer2.render(sceneOrtho, cameraOrtho);
 */
-			//TODO: TERMINA HUD
+			//NOTE: TERMINA HUD
 			renderer.render(scene, camera);
 
-		}
+
+		}//RENDER ENDS
 
 		function setupScene() {
 			var visibleSize = {
@@ -472,11 +650,13 @@
 			renderer.setSize(visibleSize.width / 1.22, visibleSize.height);
 			//renderer.setSize(visibleSize.width/1.22, visibleSize.height/2);
 
-			var ambientLight = new THREE.AmbientLight(new THREE.Color(1, 1, 1), 1.0);
+			var ambientLight = new THREE.AmbientLight(new THREE.Color(.3, 0, .5), 3.0);
 			scene.add(ambientLight);
 
-			var directionalLight = new THREE.DirectionalLight(new THREE.Color(1, 1, 0), 0.4);
-			directionalLight.position.set(0, 0, 1);
+			var directionalLight = new THREE.DirectionalLight(new THREE.Color(1, .5, 0), 10.0);
+			directionalLight.position.set(100, 10, 1);
+			directionalLight.scale.set(30,30,30);
+			
 			scene.add(directionalLight);
 
 			//var grid = new THREE.GridHelper(50, 10, 0xffffff, 0xffffff);
@@ -487,9 +667,7 @@
 
 
 
-
-
-			//TODO: HUD
+			//NOTE: HUD
 /*
 			cameraOrtho = new THREE.OrthographicCamera(
 				-window.innerWidth / 2,
@@ -562,12 +740,12 @@
 			
 			window.addEventListener('resize', onWindowResize, false);
 */
-			//TODO: END HUD
+			//NOTE: END HUD
 
 		}
 
 
-		//TODO: FUNCIONES HUD
+		//NOTE: FUNCIONES HUD
 		/*function createHUDSprites(texture) {
 			var material = new THREE.SpriteMaterial({
 				map: texture
@@ -654,12 +832,12 @@
 			requestAnimationFrame(animate);
 			render();
 		}*/
-		//TODO: TERMINAN FUNCIONES HUD
+		//NOTE: TERMINAN FUNCIONES HUD
 	</script>
 </head>
 
 <body>
-	<!--<audio src="audio/Maintitle.mp3" loop autoplay></audio>-->
+	<audio src="audio/Track1.mp3" loop autoplay></audio>
 	<div id="leftContainerG">
 		<div id="canvasP1">
 			<div id="scene-section"></div>
@@ -682,7 +860,8 @@
 			</div>
 			<div class="playerControls">
 				<p>PAUSE</p>
-				<img src="img/letter_p.png" alt="">
+				<img id="tecla" src="img/letter_p.png" alt="">
+				<button id="btnUnpause" class="button" style="width: 100px; top: 20px; visibility: hidden"></button>
 			</div>
 
 			<button id="btnExit" class="button" style="width: 100px; top: 20px;">EXIT</button>
